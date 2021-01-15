@@ -16,7 +16,7 @@ class ConvertCommand extends Command
          ->setDescription('Convert CSV file to MySQL SQL')
          ->setHelp('')
          ->addOption('input', 'i', InputOption::VALUE_REQUIRED, 'input CSV filename')
-         ->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'output SQL filename')
+         // ->addOption('output', 'o', InputOption::VALUE_REQUIRED, 'output SQL filename')
          ->addOption('drop', 'd', InputOption::VALUE_NONE, 'Include DROP TABLE? (default no, and use CREATE TABLE IF NOT EXISTS)')
          ->addOption('schema', 's', InputOption::VALUE_REQUIRED, 'Just the schema, no INSERTs')
          ->addOption('csv-read-buffer', 'b', InputOption::VALUE_REQUIRED, 'Buffer size in kB. Each line of CSV must be shorter than this. Default 10', 10)
