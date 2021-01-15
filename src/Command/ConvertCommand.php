@@ -50,7 +50,7 @@ class ConvertCommand extends Command
     }
 
     $isBigFile = ($parser->count() > 100);
-    ProgressBar::setFormatDefinition('custom', '  <info>%message%</info> %percent% %bar% Est %remaining%');
+    ProgressBar::setFormatDefinition('custom', '  <info>%message%</info> %percent%% %bar% Est %remaining%');
 
     $tableName = preg_replace( '/[^a-zA-Z0-9_]+/', '_',
       preg_replace('@^(?:.*/)?([^/]+)\.csv$@', '$1', $csvFilename));
