@@ -274,8 +274,10 @@ class ConvertCommand extends Command
     }
     $command .= ";\n";
     $output->writeln($command);
-    $progressBar->finish();
-    $progressBar->clear();
+    if (isset($progressBar)) {
+      $progressBar->finish();
+      $progressBar->clear();
+    }
 
     return 0;
   }
