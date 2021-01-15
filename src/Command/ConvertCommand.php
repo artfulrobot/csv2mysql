@@ -27,8 +27,6 @@ class ConvertCommand extends Command
   protected function execute(InputInterface $input, OutputInterface $output) {
 
     $csvFilename = $input->getOption('input');
-    $sqlFilename = $input->getOption('output');
-    // $output->writeln("<error>Error: " . $e->getMessage() . "</error>");
 
     if (!file_exists($csvFilename)) {
        $output->writeln("<error>Error: input '$csvFilename' not found</error>");
