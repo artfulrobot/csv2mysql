@@ -1,0 +1,11 @@
+{
+    "require": {
+        "symfony/console": "^5.1",
+        "artfulrobot/artfulrobot": "^1.4.4"
+    },
+    "autoload": {
+      "psr-4": {
+        "App\\": "src"
+      }
+    }
+}
