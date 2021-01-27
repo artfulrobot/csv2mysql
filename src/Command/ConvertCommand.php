@@ -70,9 +70,12 @@ class ConvertCommand extends Command
 
         // Nulls are allowed as soon as an empty cell is found.
         'empty' => FALSE,
+        'entirelyEmpty' => TRUE,
         'maxlength' => 0,
         'maxmblength' => 0,
         'maxint' => 0,
+
+        'uniqueVals' => [],
       ];
     }
 
@@ -89,15 +92,21 @@ class ConvertCommand extends Command
 
       foreach ($parser as $row) {
         $val = $row->$colname;
-        // Rule out certain types if the value is not valid for them.
-        $t['unsigned_int'] &= preg_match('/^\d+$/', (string) $val);
-        $t['signed_int'] &= preg_match('/^-\d+$/', $val);
-        $t['float'] &= preg_match('/^-?\d\d*(\.\d+)$/', $val);
-        $t['date'] &= preg_match('/^\d\d\d\d-\d\d-\d\d$/', $val);
-        $t['datetime'] &= preg_match('/^\d\d\d\d-\d\d-\d\d[T ]\d\d:\d\d:\d\d$/', $val);
-
-        // Are there empty values? (Note here, empty means zero-length string.)
-        $t['empty'] |= $val === '';
+        $t['uniqueVals'][$val] = 1;
+        if ($val === '') {
+          // There empty values. (Note here, empty means zero-length string.)
+          $t['empty'] = TRUE;
+        }
+        else {
+          $t['entirelyEmpty'] = FALSE;
+          // We have something other than nothing: rule out certain types if
+          // the value is not valid for them.
+          $t['unsigned_int'] &= preg_match('/^\d+$/', (string) $val);
+          $t['signed_int'] &= preg_match('/^-\d+$/', $val);
+          $t['float'] &= preg_match('/^-?\d\d*(\.\d+)$/', $val);
+          $t['date'] &= preg_match('/^\d\d\d\d-\d\d-\d\d$/', $val);
+          $t['datetime'] &= preg_match('/^\d\d\d\d-\d\d-\d\d[T ]\d\d:\d\d:\d\d$/', $val);
+        }
 
         // @todo timezones
         $t['maxmblength'] = max(mb_strlen($val), $t['maxlength']);
@@ -114,13 +123,17 @@ class ConvertCommand extends Command
 
       // Default data type
       $type = 'text';
-      if ($c === 1) {
+      if ($t['entirelyEmpty']) {
+        // There is no data. Import as tinyint.
+        $type = 'unsigned_int';
+      }
+      elseif ($c === 1) {
         // only one match, easy.
         $type = $t['unique'][0];
       }
       elseif ($c > 1) {
         throw new \RuntimeException("Row " . $parser->key() . " col '" . $colname . "' could be "
-          . implode(' or ', $t['unique']));
+          . implode(' or ', $t['unique']). " FRom values:\n" . json_encode($t, JSON_PRETTY_PRINT));
       }
 
       // Great.
