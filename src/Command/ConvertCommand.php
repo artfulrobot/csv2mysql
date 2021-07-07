@@ -153,27 +153,30 @@ class ConvertCommand extends Command
         $t['def'] .= ' NOT NULL';
       }
       elseif ($type === 'unsigned_int') {
-        if ($t['maxint'] <256) {
+        // @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
+        if ($t['maxint'] <= 255) {
           $t['def'] = 'TINYINT UNSIGNED';
         }
-        elseif ($t['maxint'] >= 2**32) {
-          // Unsigned integers are max 4 bytes (2^32 = 4294967296).
-          // Everything longer we make VARCHAR.
-          $t['def'] = 'VARCHAR(' . ((int) (1.10 * $t['maxmblength'])) . ')';
+        elseif ($t['maxint'] <= 4294967295) {
+          $t['def'] = 'INT(10) UNSIGNED';
         }
         else {
-          $t['def'] = 'INT(10) UNSIGNED';
+          $t['def'] = 'BIGINT UNSIGNED';
         }
         if (!$t['empty']) {
           $t['def'] .= ' NOT NULL DEFAULT 0';
         }
       }
       elseif ($type === 'signed_int') {
-        if ($t['maxint'] < 127) {
+        // @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
+        if ($t['maxint'] >= -128 && $t['maxint'] <= 127) {
           $t['def'] = 'TINYINT SIGNED';
         }
-        else {
+        elseif ($t['maxint'] >= -2147483648 && $t['maxint'] <= 2147483647) {
           $t['def'] = 'INT(10) SIGNED';
+        }
+        else {
+          $t['def'] = 'BIGINT SIGNED';
         }
         if (!$t['empty']) {
           $t['def'] .= ' NOT NULL DEFAULT 0';
