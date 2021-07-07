@@ -147,10 +147,10 @@ class ConvertCommand extends Command
         else {
           // allow 10% more than the max chars so far.
           $t['def'] = 'VARCHAR(' . ((int) (1.10 * $t['maxmblength'])) . ')';
-          // We don't know that we need to differentiate between zero length string and NULL;
-          // the INSERTS will be zls, so call this column NOT NULL.
-          $t['def'] .= ' NOT NULL DEFAULT ""';
         }
+        // We don't know that we need to differentiate between zero length string and NULL;
+        // the INSERTS will be zls, so call this column NOT NULL.
+        $t['def'] .= ' NOT NULL';
       }
       elseif ($type === 'unsigned_int') {
         if ($t['maxint'] <256) {
