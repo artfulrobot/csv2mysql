@@ -265,6 +265,10 @@ class ConvertCommand extends Command
         $val = $row->$header;
         if (in_array($col['type'], ['unsigned_int', 'signed_int', 'float'])) {
           // We can trust this value to be safe because of the regex above.
+          // Cast explicit empty number values to NULL.
+          if ($val === '') {
+            $val = 'NULL';
+          }
         }
         else {
           // Text for everything else.

@@ -57,11 +57,12 @@ CREATE TABLE IF NOT EXISTS `a` (
   `dob` DATE,
   `height` DECIMAL(12,4) NOT NULL DEFAULT 0,
   `Bank_Balance` INT(10) SIGNED NOT NULL DEFAULT 0,
-  `Phone` VARCHAR(13) NOT NULL DEFAULT 0
+  `Phone` VARCHAR(13) NOT NULL DEFAULT 0,
+  `Empty_Column` TINYINT UNSIGNED
 );
 
-INSERT INTO `a` (`Name`, `houses`, `dob`, `height`, `Bank_Balance`, `Phone`) VALUES 
-("Wilma",0,"1995-01-02",23.4,-200,315012341234),("Sir Montague the Oppressor",200,"1995-01-02",23.4,-200,325012341234);
+INSERT INTO `a` (`Name`, `houses`, `dob`, `height`, `Bank_Balance`, `Phone`, `Empty_Column`) VALUES 
+("Wilma",0,"1995-01-02",23.4,-200,315012341234,NULL),("Sir Montague the Oppressor",200,"1995-01-02",23.4,-200,325012341234,NULL);
 ```
 
 - An ID column was added as a primary key, as there was no ID column in
