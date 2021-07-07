@@ -156,7 +156,7 @@ class ConvertCommand extends Command
         if ($t['maxint'] <256) {
           $t['def'] = 'TINYINT UNSIGNED';
         }
-        elseif ($t['maxint'] > 2**32) {
+        elseif ($t['maxint'] >= 2**32) {
           // Unsigned integers are max 4 bytes (2^32 = 4294967296).
           // Everything longer we make VARCHAR.
           $t['def'] = 'VARCHAR(' . ((int) (1.10 * $t['maxmblength'])) . ')';
@@ -304,4 +304,3 @@ class ConvertCommand extends Command
     return 0;
   }
 }
-
