@@ -150,25 +150,33 @@ class ConvertCommand extends Command
         }
         // We don't know that we need to differentiate between zero length string and NULL;
         // the INSERTS will be zls, so call this column NOT NULL.
-        $t['def'] .= ' NOT NULL DEFAULT ""';
+        $t['def'] .= ' NOT NULL';
       }
       elseif ($type === 'unsigned_int') {
-        if ($t['maxint'] <256) {
+        // @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
+        if ($t['maxint'] <= 255) {
           $t['def'] = 'TINYINT UNSIGNED';
         }
-        else {
+        elseif ($t['maxint'] <= 4294967295) {
           $t['def'] = 'INT(10) UNSIGNED';
+        }
+        else {
+          $t['def'] = 'BIGINT UNSIGNED';
         }
         if (!$t['empty']) {
           $t['def'] .= ' NOT NULL DEFAULT 0';
         }
       }
       elseif ($type === 'signed_int') {
-        if ($t['maxint'] < 127) {
+        // @see https://dev.mysql.com/doc/refman/8.0/en/integer-types.html
+        if ($t['maxint'] >= -128 && $t['maxint'] <= 127) {
           $t['def'] = 'TINYINT SIGNED';
         }
-        else {
+        elseif ($t['maxint'] >= -2147483648 && $t['maxint'] <= 2147483647) {
           $t['def'] = 'INT(10) SIGNED';
+        }
+        else {
+          $t['def'] = 'BIGINT SIGNED';
         }
         if (!$t['empty']) {
           $t['def'] .= ' NOT NULL DEFAULT 0';
@@ -260,6 +268,10 @@ class ConvertCommand extends Command
         $val = $row->$header;
         if (in_array($col['type'], ['unsigned_int', 'signed_int', 'float'])) {
           // We can trust this value to be safe because of the regex above.
+          // Cast explicit empty number values to NULL.
+          if ($val === '') {
+            $val = 'NULL';
+          }
         }
         else {
           // Text for everything else.
@@ -295,4 +307,3 @@ class ConvertCommand extends Command
     return 0;
   }
 }
-

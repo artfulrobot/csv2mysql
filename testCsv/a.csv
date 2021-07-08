@@ -1,3 +1,3 @@
-Name,houses,dob,height,Bank Balance
-Wilma,0,1995-01-02,23.4,-200
-Sir Montague the Oppressor,200,1995-01-02,23.4,-200
+Name,houses,dob,height,Bank Balance,Phone,Empty Column
+Wilma,0,1995-01-02,23.4,-200,315012341234,
+Sir Montague the Oppressor,200,1995-01-02,23.4,-200,325012341234,

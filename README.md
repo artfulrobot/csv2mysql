@@ -52,15 +52,17 @@ Using the sample CSV file in `testCsv/a.csv`:
 % bin/csv2mysql convert -i testCsv/a.csv
 CREATE TABLE IF NOT EXISTS `a` (
   id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `Name` VARCHAR(28) NOT NULL DEFAULT "",
+  `Name` VARCHAR(28) NOT NULL,
   `houses` TINYINT UNSIGNED NOT NULL DEFAULT 0,
   `dob` DATE,
   `height` DECIMAL(12,4) NOT NULL DEFAULT 0,
-  `Bank_Balance` INT(10) SIGNED NOT NULL DEFAULT 0
+  `Bank_Balance` INT(10) SIGNED NOT NULL DEFAULT 0,
+  `Phone` BIGINT UNSIGNED NOT NULL DEFAULT 0,
+  `Empty_Column` TINYINT UNSIGNED
 );
 
-INSERT INTO `a` (`Name`, `houses`, `dob`, `height`, `Bank_Balance`) VALUES 
-("Wilma",0,"1995-01-02",23.4,-200),("Sir Montague the Oppressor",200,"1995-01-02",23.4,-200);
+INSERT INTO `a` (`Name`, `houses`, `dob`, `height`, `Bank_Balance`, `Phone`, `Empty_Column`) VALUES 
+("Wilma",0,"1995-01-02",23.4,-200,315012341234,NULL),("Sir Montague the Oppressor",200,"1995-01-02",23.4,-200,325012341234,NULL);
 ```
 
 - An ID column was added as a primary key, as there was no ID column in
