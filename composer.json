@@ -1,4 +1,7 @@
 {
+    "name": "artfulrobot/csv2mysql",
+    "description": "Script to take a CSV file and generate MySQL SQL commands to create it as a table.",
+    "type": "library",
     "require": {
         "symfony/console": "^5.1",
         "artfulrobot/artfulrobot": "^1.4.4"
