@@ -87,3 +87,20 @@ curl -LSs https://box-project.github.io/box2/installer.php | php
 
 Run `composer install` and then run `bin/build.sh`
 
+## Developers: to include in different project with composer require:
+
+Add repository to your project composer.json
+
+```
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/artfulrobot/csv2mysql"
+    }
+],
+```
+
+Require the package with composer from the command line:
+```
+composer require artfulrobot/csv2mysql
+```
