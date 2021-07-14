@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "symfony/console": "^4.4 || ^5.1 || ^6.0",
-        "artfulrobot/artfulrobot": "^1.4.4"
+        "artfulrobot/csv": "^1.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

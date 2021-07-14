@@ -1,15 +1,16 @@
 <?php
-/*  +--------------------------------------------------------------------+  
-    | Copyright Rich Lott 2021. All rights reserved.                     |
-    |                                                                    |
-    | This work is published under the GNU AGPLv3 license with some      |
-    | permitted exceptions and without any warranty. For full license    |
-    | and copyright information, see LICENSE                             |
-    +--------------------------------------------------------------------+
+/*
++--------------------------------------------------------------------+
+| Copyright Rich Lott 2021. All rights reserved.                     |
+|                                                                    |
+| This work is published under the GNU AGPLv3 license with some      |
+| permitted exceptions and without any warranty. For full license    |
+| and copyright information, see LICENSE                             |
++--------------------------------------------------------------------+
 */
 namespace App\Command;
 
-use ArtfulRobot\CsvParser;
+use ArtfulRobot\CSVParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -45,7 +46,7 @@ class ConvertCommand extends Command
        return 1;
     }
     try {
-      $parser = CsvParser::createFromFile($csvFilename, $input->getOption('csv-read-buffer') * 1024);
+      $parser = CSVParser::createFromFile($csvFilename, $input->getOption('csv-read-buffer') * 1024);
     }
     catch (\Exception $e) {
       $output->writeln("<error>-- Error: input '$csvFilename': " . $e->getMessage() . "</error>");
